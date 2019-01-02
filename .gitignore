@@ -59,3 +59,7 @@ typings/
 
 # next.js build output
 .next
+
+/communes-5m.json
+/dist
+*.sqlite
