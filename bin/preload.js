@@ -2,6 +2,7 @@
 const {createReadStream} = require('fs')
 const Keyv = require('keyv')
 const bluebird = require('bluebird')
+const {createGunzip} = require('gunzip-stream')
 const getStream = require('get-stream').array
 const csvParse = require('csv-parser')
 const {chain} = require('lodash')
@@ -41,6 +42,7 @@ async function preload(path) {
 
   const items = await getStream(
     createReadStream(path)
+      .pipe(createGunzip())
       .pipe(csvParse())
       .pipe(through((row, enc, cb) => {
         count++

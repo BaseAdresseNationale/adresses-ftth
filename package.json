@@ -34,6 +34,7 @@
     "fs-extra": "^7.0.1",
     "geojson-stream": "^0.0.1",
     "get-stream": "^4.1.0",
+    "gunzip-stream": "^1.0.1",
     "keyv": "^3.1.0",
     "lodash": "^4.17.11",
     "pumpify": "^1.5.1",
