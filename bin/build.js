@@ -1,4 +1,5 @@
 #!/usr/bin/env node --max-old-space-size=8192
+require('dotenv').config()
 const {promisify} = require('util')
 const bluebird = require('bluebird')
 const Keyv = require('keyv')
