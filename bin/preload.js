@@ -21,10 +21,12 @@ function getNumero(str) {
   if (!numero || !numero.match(/^\d+$/)) {
     return
   }
+
   const parsedNumero = Number.parseInt(numero, 10)
   if (parsedNumero === 0 || parsedNumero >= 5000) {
     return
   }
+
   return String(parsedNumero)
 }
 
@@ -49,6 +51,7 @@ async function preload(path) {
         if (count % 1000 === 0) {
           console.log(`Read ${count} rows`)
         }
+
         const codeCommune = getCodeCommune(row.code_poste, row.nom_com)
         const numero = getNumero(row.num_voie)
         const nomVoie = [getValue(row.type_voie), getValue(row.nom_voie)].filter(Boolean).join(' ')
@@ -64,6 +67,7 @@ async function preload(path) {
             lat: getCoordinate(row.y)
           })
         }
+
         return cb()
       }))
   )

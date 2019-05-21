@@ -19,14 +19,14 @@ const preloadedDb = new Keyv(PRELOADED_DB_PATH)
 async function buildDepartement(codeDepartement, codesCommunes) {
   const path = `dist/adresses-ftth-${codeDepartement}.geojson.gz`
   if (await pathExists(path)) {
-    // console.log(`Département ${codeDepartement} ignoré - fichier déjà présent`)
+    // Console.log(`Département ${codeDepartement} ignoré - fichier déjà présent`)
     return
   }
+
   console.log(`Département ${codeDepartement}`)
   const result = createWritableGeoJSON(path)
 
-  await bluebird.mapSeries((codesCommunes), async (codeCommune, i, len) => {
-    // console.log(`--------- ${codeCommune} [${i + 1}/${len}]`)
+  await bluebird.mapSeries((codesCommunes), async codeCommune => {
     const [adresses, codeVoieCtx] = await Promise.all([
       preloadedDb.get(codeCommune),
       createCommuneContext(codeCommune)
@@ -53,6 +53,7 @@ async function buildDepartement(codeDepartement, codesCommunes) {
         adresse.exterieurCommune = true
         console.log('⛔️ Adresse située en dehors de sa commune de rattachement !')
       }
+
       adresse.id = buildCleInterop(adresse)
       adresse.nomVoie = memoizedBeautify(adresse.nomVoie)
       adresse.nomCommune = getCommune(adresse.codeCommune).nom
