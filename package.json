@@ -27,7 +27,7 @@
     "@keyv/sqlite": "^2.0.0",
     "@turf/turf": "^5.1.6",
     "bluebird": "^3.5.5",
-    "codes-postaux": "^3.0.0",
+    "codes-postaux": "^3.2.0",
     "csv-parser": "^2.3.0",
     "dotenv": "^8.0.0",
     "end-of-stream": "^1.4.1",
