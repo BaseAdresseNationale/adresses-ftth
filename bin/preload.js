@@ -45,7 +45,7 @@ async function preload(path) {
   const items = await getStream(
     createReadStream(path)
       .pipe(createGunzip())
-      .pipe(csvParse())
+      .pipe(csvParse({separator: ';'}))
       .pipe(through((row, enc, cb) => {
         count++
         if (count % 1000 === 0) {
