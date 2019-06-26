@@ -22,8 +22,9 @@
     "test": "ava"
   },
   "dependencies": {
-    "@etalab/adresses-util": "^0.1.0",
+    "@etalab/adresses-util": "^0.6.0",
     "@etalab/decoupage-administratif": "^0.6.2",
+    "@etalab/fantoir": "^0.8.0",
     "@keyv/sqlite": "^2.0.0",
     "@turf/turf": "^5.1.6",
     "bluebird": "^3.5.5",
