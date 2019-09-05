@@ -45,7 +45,7 @@ async function preload(path) {
   const items = await getStream(
     createReadStream(path)
       .pipe(createGunzip())
-      .pipe(csvParse({separator: ';'}))
+      .pipe(csvParse({separator: ','}))
       .pipe(through((row, enc, cb) => {
         count++
         if (count % 1000 === 0) {
@@ -64,7 +64,8 @@ async function preload(path) {
             nomVoie,
             batiment: getValue(row.batiment) || undefined,
             lon: getCoordinate(row.x),
-            lat: getCoordinate(row.y)
+            lat: getCoordinate(row.y),
+            typeBatiment: getValue(row.type_imb)
           })
         }
 
