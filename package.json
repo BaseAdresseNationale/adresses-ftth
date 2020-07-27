@@ -42,13 +42,14 @@
   },
   "devDependencies": {
     "ava": "^3.11.0",
-    "xo": "^0.25.3"
+    "xo": "^0.32.1"
   },
   "xo": {
     "semicolon": false,
     "space": 2,
     "rules": {
-      "unicorn/prefer-string-slice": "off"
+      "unicorn/prefer-string-slice": "off",
+      "unicorn/prevent-abbreviations": "off"
     }
   }
 }
