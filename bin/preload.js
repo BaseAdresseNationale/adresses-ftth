@@ -1,12 +1,12 @@
 #!/usr/bin/env node --max-old-space-size=8192
 const {createReadStream} = require('fs')
+const {Transform} = require('stream')
 const Keyv = require('keyv')
 const bluebird = require('bluebird')
 const {createGunzip} = require('gunzip-stream')
 const getStream = require('get-stream').array
 const csvParse = require('csv-parser')
 const {chain} = require('lodash')
-const through = require('through2').obj
 const {PRELOADED_DB_PATH, ARCEP_FTTH_IMMEUBLES_PATH} = require('../lib/env')
 const {getCodeCommune} = require('../lib/codes-postaux')
 
@@ -46,30 +46,33 @@ async function preload(path) {
     createReadStream(path)
       .pipe(createGunzip())
       .pipe(csvParse({separator: ','}))
-      .pipe(through((row, enc, cb) => {
-        count++
-        if (count % 1000 === 0) {
-          console.log(`Read ${count} rows`)
-        }
+      .pipe(new Transform({
+        transform(row, enc, cb) {
+          count++
+          if (count % 1000 === 0) {
+            console.log(`Read ${count} rows`)
+          }
 
-        const codeCommune = getCodeCommune(row.code_poste, row.nom_com)
-        const numero = getNumero(row.num_voie)
-        const nomVoie = [getValue(row.type_voie), getValue(row.nom_voie)].filter(Boolean).join(' ')
-        if (codeCommune && numero && nomVoie) {
-          return cb(null, {
-            codeCommune,
-            codePostal: codeCommune === row.code_poste ? undefined : row.code_poste,
-            numero,
-            suffixe: getValue(row.cp_no_voie) || undefined,
-            nomVoie,
-            batiment: getValue(row.batiment) || undefined,
-            lon: getCoordinate(row.x),
-            lat: getCoordinate(row.y),
-            typeBatiment: getValue(row.type_imb)
-          })
-        }
+          const codeCommune = getCodeCommune(row.code_poste, row.nom_com)
+          const numero = getNumero(row.num_voie)
+          const nomVoie = [getValue(row.type_voie), getValue(row.nom_voie)].filter(Boolean).join(' ')
+          if (codeCommune && numero && nomVoie) {
+            return cb(null, {
+              codeCommune,
+              codePostal: codeCommune === row.code_poste ? undefined : row.code_poste,
+              numero,
+              suffixe: getValue(row.cp_no_voie) || undefined,
+              nomVoie,
+              batiment: getValue(row.batiment) || undefined,
+              lon: getCoordinate(row.x),
+              lat: getCoordinate(row.y),
+              typeBatiment: getValue(row.type_imb)
+            })
+          }
 
-        return cb()
+          return cb()
+        },
+        objectMode: true
       }))
   )
 
