@@ -9,6 +9,7 @@ const csvParse = require('csv-parser')
 const {chain} = require('lodash')
 const {PRELOADED_DB_PATH, ARCEP_FTTH_IMMEUBLES_PATH} = require('../lib/env')
 const {getCodeCommune} = require('../lib/codes-postaux')
+const {repairNomVoie, repairTypeVoie} = require('../lib/repair-string')
 
 function getValue(str) {
   if (str && str !== '""') {
@@ -55,7 +56,12 @@ async function preload(path) {
 
           const codeCommune = getCodeCommune(row.code_poste, row.nom_com)
           const numero = getNumero(row.num_voie)
-          const nomVoie = [getValue(row.type_voie), getValue(row.nom_voie)].filter(Boolean).join(' ')
+
+          const nomVoie = [
+            repairTypeVoie(getValue(row.type_voie)),
+            repairNomVoie(getValue(row.nom_voie))
+          ].filter(Boolean).join(' ')
+
           if (codeCommune && numero && nomVoie) {
             return cb(null, {
               codeCommune,
