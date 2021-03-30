@@ -10,13 +10,11 @@
     "access": "public"
   },
   "scripts": {
-    "download-contours": "curl http://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2019/geojson/communes-5m.geojson.gz | gunzip > communes-5m.json",
     "preload": "node --max-old-space-size=8192 bin/preload",
     "build": "node --max-old-space-size=8192 bin/build",
     "clean:db": "rm -f .tmp.sqlite",
     "clean:dist": "rm -rf dist/*",
-    "clean:contours": "rm -rf communes-5m.json",
-    "clean": "yarn clean:db && yarn clean:dist && yarn clean:contours",
+    "clean": "yarn clean:db && yarn clean:dist",
     "lint": "xo",
     "test": "ava"
   },

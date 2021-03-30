@@ -16,12 +16,6 @@ Extraction des adresses contenues dans les [fichiers de déploiement FTTH](https
 yarn
 ```
 
-### Téléchargement des contours de communes
-
-```bash
-yarn download-contours
-```
-
 ### Téléchargement des dernières données de déploiement
 
 Les données peuvent être récupérées sur [cette page](https://www.data.gouv.fr/datasets/547d8d7ac751df405d090fcb).

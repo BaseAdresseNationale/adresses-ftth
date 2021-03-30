@@ -8,7 +8,6 @@ const {chain, omit} = require('lodash')
 const eos = promisify(require('end-of-stream'))
 const {mkdirp, pathExists} = require('fs-extra')
 const {PRELOADED_DB_PATH} = require('../lib/env')
-const {isWithinCommune} = require('../lib/contours')
 const {getCodeDepartement, getCommune} = require('../lib/cog')
 const {createWritableGeoJSON} = require('../lib/util')
 
@@ -28,11 +27,6 @@ async function buildDepartement(codeDepartement, codesCommunes) {
     const adresses = await preloadedDb.get(codeCommune)
 
     adresses.forEach(adresse => {
-      if (!isWithinCommune([adresse.lon, adresse.lat], codeCommune)) {
-        adresse.exterieurCommune = true
-        console.log('⛔️ Adresse située en dehors de sa commune de rattachement !')
-      }
-
       adresse.nomCommune = getCommune(adresse.codeCommune).nom
       result.write(point([adresse.lon, adresse.lat], omit(adresse, 'lat', 'lon')))
     })
