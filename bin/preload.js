@@ -64,15 +64,14 @@ async function preload(path) {
 
           if (codeCommune && numero && nomVoie) {
             return cb(null, {
+              id: getValue(row.imb_id),
               codeCommune,
               codePostal: codeCommune === row.code_poste ? undefined : row.code_poste,
               numero,
               suffixe: getValue(row.cp_no_voie) || undefined,
               nomVoie,
-              batiment: getValue(row.batiment) || undefined,
               lon: getCoordinate(row.x),
-              lat: getCoordinate(row.y),
-              typeBatiment: getValue(row.type_imb)
+              lat: getCoordinate(row.y)
             })
           }
 

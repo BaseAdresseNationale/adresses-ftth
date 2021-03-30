@@ -4,12 +4,10 @@ const {promisify} = require('util')
 const bluebird = require('bluebird')
 const Keyv = require('keyv')
 const {point} = require('@turf/turf')
-const {beautify, buildCleInterop, rewriteSuffixes} = require('@etalab/adresses-util')
-const {chain, omit, memoize} = require('lodash')
+const {chain, omit} = require('lodash')
 const eos = promisify(require('end-of-stream'))
 const {mkdirp, pathExists} = require('fs-extra')
 const {PRELOADED_DB_PATH} = require('../lib/env')
-const {createCommuneContext} = require('../lib/codes-voies')
 const {isWithinCommune} = require('../lib/contours')
 const {getCodeDepartement, getCommune} = require('../lib/cog')
 const {createWritableGeoJSON} = require('../lib/util')
@@ -27,26 +25,7 @@ async function buildDepartement(codeDepartement, codesCommunes) {
   const result = createWritableGeoJSON(path)
 
   await bluebird.mapSeries((codesCommunes), async codeCommune => {
-    const [adresses, codeVoieCtx] = await Promise.all([
-      preloadedDb.get(codeCommune),
-      createCommuneContext(codeCommune)
-    ])
-
-    // Compute codeVoie
-    adresses.forEach(adresse => {
-      adresse.codeVoie = codeVoieCtx.getCodeVoie(adresse.nomVoie)
-      if (['X', 'Y', 'Z'].includes(adresse.codeVoie.charAt(0))) {
-        adresse.pseudoCodeVoie = true
-      }
-    })
-
-    // Rewrite suffixe
-    chain(adresses)
-      .groupBy(a => `${a.codeCommune}-${a.codeVoie}`)
-      .forEach(adressesNumero => rewriteSuffixes(adressesNumero))
-      .value()
-
-    const memoizedBeautify = memoize(beautify)
+    const adresses = await preloadedDb.get(codeCommune)
 
     adresses.forEach(adresse => {
       if (!isWithinCommune([adresse.lon, adresse.lat], codeCommune)) {
@@ -54,8 +33,6 @@ async function buildDepartement(codeDepartement, codesCommunes) {
         console.log('⛔️ Adresse située en dehors de sa commune de rattachement !')
       }
 
-      adresse.id = buildCleInterop(adresse)
-      adresse.nomVoie = memoizedBeautify(adresse.nomVoie)
       adresse.nomCommune = getCommune(adresse.codeCommune).nom
       result.write(point([adresse.lon, adresse.lat], omit(adresse, 'lat', 'lon')))
     })
