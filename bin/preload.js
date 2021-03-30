@@ -28,7 +28,7 @@ function getNumero(str) {
     return
   }
 
-  return String(parsedNumero)
+  return parsedNumero
 }
 
 const COORDINATE_PRECISION = 0.0000001
@@ -62,20 +62,31 @@ async function preload(path) {
             repairNomVoie(getValue(row.nom_voie))
           ].filter(Boolean).join(' ')
 
-          if (codeCommune && numero && nomVoie) {
-            return cb(null, {
-              id: getValue(row.imb_id),
-              codeCommune,
-              codePostal: codeCommune === row.code_poste ? undefined : row.code_poste,
-              numero,
-              suffixe: getValue(row.cp_no_voie) || undefined,
-              nomVoie,
-              lon: getCoordinate(row.x),
-              lat: getCoordinate(row.y)
-            })
+          if (!codeCommune) {
+            console.log(`❌ codeCommune non trouvé pour le couple ${row.code_poste} ${row.nom_com}`)
+            return cb()
           }
 
-          return cb()
+          if (!nomVoie) {
+            console.log('❌ nomVoie non renseigné')
+            return cb()
+          }
+
+          if (!Number.isInteger(numero)) {
+            console.log('❌ numero non renseigné')
+            return cb()
+          }
+
+          cb(null, {
+            id: getValue(row.imb_id),
+            codeCommune,
+            codePostal: codeCommune === row.code_poste ? undefined : row.code_poste,
+            numero,
+            suffixe: getValue(row.cp_no_voie) || undefined,
+            nomVoie,
+            lon: getCoordinate(row.x),
+            lat: getCoordinate(row.y)
+          })
         },
         objectMode: true
       }))
