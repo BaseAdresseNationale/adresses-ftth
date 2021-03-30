@@ -1,4 +1,4 @@
-#!/usr/bin/env node --max-old-space-size=8192
+#!/usr/bin/env node --max-old-space-size=12288
 const {join} = require('path')
 const {createReadStream} = require('fs')
 const {Transform} = require('stream')
