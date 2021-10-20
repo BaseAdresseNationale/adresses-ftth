@@ -90,10 +90,12 @@ async function build(path) {
 
           accepted++
 
+          const commune = getCommune(codeCommune)
+
           cb(null, {
             id: getValue(row.imb_id),
             codeCommune,
-            nomCommune: getCommune(codeCommune).nom,
+            nomCommune: commune ?? commune.nom,
             codePostal: codeCommune === row.code_poste ? undefined : row.code_poste,
             numero,
             suffixe: getValue(row.cp_no_voie) || undefined,
