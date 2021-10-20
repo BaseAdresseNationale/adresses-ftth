@@ -19,18 +19,18 @@
     "@etalab/decoupage-administratif": "^0.8.0",
     "bluebird": "^3.7.2",
     "codes-postaux": "^3.3.0",
-    "csv-parser": "^2.3.3",
+    "csv-parser": "^3.0.0",
     "end-of-stream": "^1.4.4",
-    "fs-extra": "^9.0.1",
+    "fs-extra": "^10.0.0",
     "geojson-stream": "^0.1.0",
-    "get-stream": "^5.1.0",
+    "get-stream": "^6.0.1",
     "gunzip-stream": "^1.0.1",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "pumpify": "^2.0.1",
-    "talisman": "^1.1.2"
+    "talisman": "^1.1.4"
   },
   "devDependencies": {
-    "ava": "^3.11.0",
+    "ava": "^3.15.0",
     "xo": "^0.32.1"
   },
   "xo": {
