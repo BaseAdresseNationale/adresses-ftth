@@ -1,5 +1,5 @@
 #!/usr/bin/env node --max-old-space-size=8192
-const {join} = require('path')
+const path = require('path')
 const {createReadStream} = require('fs')
 const {Transform} = require('stream')
 const bluebird = require('bluebird')
@@ -13,7 +13,7 @@ const {getCodeDepartement, getCommune} = require('./lib/cog')
 const {repairNomVoie, repairTypeVoie} = require('./lib/repair-string')
 const {writeCompressedGeoJSON} = require('./lib/util')
 
-const distPath = join(__dirname, 'dist')
+const distPath = path.join(__dirname, 'dist')
 
 function getValue(str) {
   if (str && str !== '""') {
@@ -23,7 +23,7 @@ function getValue(str) {
 
 function getNumero(str) {
   const numero = getValue(str)
-  if (!numero || !numero.match(/^\d+$/)) {
+  if (!numero || !/^\d+$/.test(numero)) {
     return
   }
 
@@ -53,7 +53,7 @@ async function build(path) {
       .pipe(new Transform({
         transform(row, enc, cb) {
           rows++
-          if (rows % 50000 === 0) {
+          if (rows % 50_000 === 0) {
             console.log(`${rows} lignes lues`)
           }
 
@@ -114,7 +114,7 @@ async function build(path) {
 
   await bluebird.mapSeries(groupedAdresses, async ({codeDepartement, adresses}) => {
     await writeCompressedGeoJSON(
-      join(distPath, `adresses-ftth-${codeDepartement}.geojson.gz`),
+      path.join(distPath, `adresses-ftth-${codeDepartement}.geojson.gz`),
       adresses.map(a => ({
         type: 'Feature',
         geometry: {type: 'Point', coordinates: [a.lon, a.lat]},
