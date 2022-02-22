@@ -16,9 +16,9 @@
     "test": "ava"
   },
   "dependencies": {
-    "@etalab/decoupage-administratif": "^0.8.0",
+    "@etalab/decoupage-administratif": "^2.0.0",
     "bluebird": "^3.7.2",
-    "codes-postaux": "^3.3.0",
+    "codes-postaux": "^3.6.0",
     "csv-parser": "^3.0.0",
     "end-of-stream": "^1.4.4",
     "fs-extra": "^10.0.0",
@@ -37,7 +37,10 @@
     "semicolon": false,
     "space": 2,
     "rules": {
-      "comma-dangle": ["error", "never"],
+      "comma-dangle": [
+        "error",
+        "never"
+      ],
       "unicorn/prefer-string-slice": "off",
       "unicorn/prevent-abbreviations": "off",
       "unicorn/prefer-module": "off",
