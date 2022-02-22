@@ -38,7 +38,7 @@ function getCoordinate(str) {
   return Number.parseFloat(Number.parseFloat(str).toFixed(6))
 }
 
-async function build(path) {
+async function build(sourcePath) {
   let rows = 0
   let noNumero = 0
   let noNomVoie = 0
@@ -47,7 +47,7 @@ async function build(path) {
   let accepted = 0
 
   const items = await getStream(
-    createReadStream(path)
+    createReadStream(sourcePath)
       .pipe(createGunzip())
       .pipe(csvParse({separator: ','}))
       .pipe(new Transform({
