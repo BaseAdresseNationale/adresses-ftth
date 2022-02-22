@@ -95,7 +95,7 @@ async function build(path) {
           cb(null, {
             id: getValue(row.imb_id),
             codeCommune,
-            nomCommune: commune ?? commune.nom,
+            nomCommune: commune ? commune.nom : undefined,
             codePostal: codeCommune === row.code_poste ? undefined : row.code_poste,
             numero,
             suffixe: getValue(row.cp_no_voie) || undefined,
