@@ -16,7 +16,7 @@
     "test": "ava"
   },
   "dependencies": {
-    "@etalab/decoupage-administratif": "^2.1.0",
+    "@etalab/decoupage-administratif": "^2.2.1",
     "bluebird": "^3.7.2",
     "codes-postaux": "^3.6.0",
     "csv-parser": "^3.0.0",
