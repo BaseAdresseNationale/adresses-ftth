@@ -1,6 +1,6 @@
 {
   "name": "@etalab/adresses-ftth",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Extraction des adresses contenues dans les fichiers de déploiement FTTH",
   "main": "index.js",
   "repository": "git@github.com:etalab/adresses-ftth.git",
@@ -16,7 +16,7 @@
     "test": "ava"
   },
   "dependencies": {
-    "@etalab/decoupage-administratif": "3.0.0",
+    "@etalab/decoupage-administratif": "4.0.0",
     "bluebird": "^3.7.2",
     "codes-postaux": "^4.0.0",
     "csv-parser": "^3.0.0",
